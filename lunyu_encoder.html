@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论语曰 - 文字加密工具</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <style>
+        body {
+            font-family: 'SimSun', 'STSong', serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f1e7d0;
+            color: #442c1e;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c4zIgcAAAFDklEQVRIiXVWiZKkKgxNAgqKR7v3+P+/8gJud+3OTNVUCeYkOQHz8QE0fe0G27lhnCa/jMP3QzePY9xZ64/+eLmz/7zFzl9j56dhPLarG0ZCCCuF1F+m6Xutw3xYW9t+LP8AxJn+ehtGIYSUgn8npVRyvfd5GOv19fGXBGv7cVrdqIRgHKUVQkvvli3M4zDP37LdfeL6vg6D4mZaqNDkaA6K8TCubrHlQkxR57UOQunVQkVmIcMwdF0/9P04uyGMpzQPGD/sqACecHauWwirqfTXtgz9GLRmFI3RGijMZ7dFQj/4dXFTf0gUiIW9dUNtdPIgWBIGxvFFa7PbST/5xW1jqEK1kZ+zg+fLIlI8F8GBZuYledLCr3N/+OJUyQ/XDc48CoIky8USDlyAF04YM11F1/XRbe4FQ4GYbvB+Mbz8KFUW/VIuFzDDLXFhsKI/3Dt3ZQHJ9N03KM7oTBQmC5VbamFKM9mCcbZTHyY3v6QzAbnuwWftWFFhJhuQZUZetBJCSY12WvB3Lz+1bOCVBULhRSrEBgOYkZ9QxQAl8p0IfB+WuY99ZcEu3ug9qURgyZhyFkrjRSOmIuYZRr7v/VxZAEQPlqyYQm0kIdXiWODAE+Ay5lkjbh0XHnlhSMgZN0hKXqRQRiWBZWZIJrY3z/XsagvGufN+YFQ2BFMpCg4rrRCB/YiU43IpZ/Nx3CtYKX78CK0KdUWbUdGt0hJkCdLJ+vqI6QeQzM5Zv68/UM2OARKpZGTyAqAMBLFrRrF0mOC97YhDf/YcCjzG7fB7iLsb+kPzjQbJMhKycKiIXsCtl+/95sfJhSh4XRQGRHb94mH/JHyJXcnfEoFbrK3n79dj8XN0aDtVRoRSc0w8ckqJSuRpvbcrCN/7xblvg4ObWGpucCMxCeJRQlJvkFSzS/qyLR4KiOvBkPADamIWakVeAOKpwTi/hZK+oJbzh1+PeL/yFKs7Y+9CbUmWKWdKJh5TUSldCFyGzTCMcW19NJqYzG4tRmMpNFOiFKKSSWRFI4CpPX+3bj5iFBxhYUxsZjdPwzQfYZ1iCutx7EcVJzb3LFHvw8E/LwGZDnvDPdBzIEhIICESKVVYdcqR0gkhv0uH7t13HsqxrA5OO+dGDz5UJyJJxGVJlcKKiuIEpHknh76PLtb6Ry2+o0M7aGrNzSJ7Q3Kah7J1j9VZL4tQmvRrPZaH0GOZlV7CHLfTr/OeQ1qnNF9muFEZiU9I1oeqDSJjbFG8OE73OBDpfnzvafgZ99Rt88DFX+DdyCLDrIQKLk3mwRkkXUAoOyRX6eOY5hmUPj/BsfLvg9P79eofp5/lWJbldMfxOY7nWlcQHZ/L9dhdTF6R4npul/XYrutYlm35XG9uLT/W0z3v7X478mXTbft12bbdUbpxe+7rdbZFUYl4qcvzedXBl+dSbDEpClGx7XHszrZtj+Npb5VL9y2WJlvVFLdGouWyX2+bLT6Ky35cz6uGMqeuKY6yuTUP1yzP261OKdsVZyvadtsK0YrbyZqvlN+fQJZuLdrG3drm9tz2x+0sbremeAquebZCqWzKQrUPlQonK8qqbG+teL6/Oi9ESFNk+X1/tLdmb5uyeZZFVtzax+34Nm1ZNMsftk/4+Q/hKtURE3CSDAAAAABJRU5ErkJggg==');
+        }
+        h1 {
+            text-align: center;
+            color: #8b4513;
+            margin-bottom: 30px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid #8b4513;
+            padding-bottom: 10px;
+        }
+        .container {
+            background-color: #f9f3e3;
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+            border: 1px solid #d3b17d;
+            position: relative;
+        }
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px dashed #d3b17d;
+            pointer-events: none;
+            border-radius: 3px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #d3b17d;
+            border-radius: 3px;
+            resize: vertical;
+            font-family: inherit;
+            box-sizing: border-box;
+            background-color: #fdfbf7;
+            color: #442c1e;
+            max-height: 300px;
+        }
+        #outputText {
+            background-color: #f5efe1;
+            cursor: default;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 3px;
+            background-color: #8b4513;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        button:hover {
+            background-color: #a05a2c;
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        .result-container {
+            margin-top: 20px;
+            position: relative;
+        }
+        h2 {
+            color: #8b4513;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            position: relative;
+            padding-left: 20px;
+        }
+        h2::before {
+            content: "『";
+            position: absolute;
+            left: 0;
+            color: #d3b17d;
+        }
+        h2::after {
+            content: "』";
+            margin-left: 5px;
+            color: #d3b17d;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.95em;
+            color: #6c5b4e;
+            padding: 15px;
+            border-top: 1px solid #d3b17d;
+        }
+        .copy-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding: 5px 15px;
+            background-color: #d3b17d;
+            font-size: 0.9em;
+        }
+        .copy-success {
+            background-color: #5cb85c !important;
+        }
+        .copy-error {
+            background-color: #d9534f !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>论语曰 - 文字加密工具</h1>
+    
+    <div class="container">
+        <textarea id="inputText" placeholder="请输入要加密或解密的文字..."></textarea>
+        
+        <div class="button-group">
+            <button id="encryptBtn">加密为论语文</button>
+            <button id="decryptBtn">解密论语文</button>
+        </div>
+        
+        <div class="result-container">
+            <h2>结果</h2>
+            <button id="copyBtn" class="copy-btn">复制结果</button>
+            <textarea id="outputText" readonly placeholder="结果将显示在这里..."></textarea>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <!-- <p>子曰：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知而不愠，不亦君子乎？」</p> -->
+    </div>
+
+    <script>
+        // 论语前缀
+        const LUNYU_PREFIX = '子曰：';
+        
+        // 论语映射表 - 将base64字符映射到论语中的单个汉字
+        const lunyuMap = {
+            'A': '仁',  // 论语核心"仁"置于首位
+            'B': '礼',  // 礼为儒家重要规范
+            'C': '义',
+            'D': '智',
+            'E': '信',
+            'F': '忠',
+            'G': '孝',
+            'H': '悌',
+            'I': '恕',  // 新增"己所不欲勿施于人"的恕道
+            'J': '勇',  // 新增"见义不为无勇也"
+            'K': '温',  // 君子五德：温良恭俭让
+            'L': '良',
+            'M': '恭',
+            'N': '俭',
+            'O': '让',
+            'P': '中',  // 中庸之道
+            'Q': '和',  // 和为贵
+            'R': '德',
+            'S': '道',
+            'T': '敬',  // 君子敬而无失
+            'U': '诚',
+            'V': '敏',  // 君子欲讷于言而敏于行
+            'W': '惠',  // 君子惠而不费
+            'X': '毅',  // 士不可不弘毅
+            'Y': '讷',  // 君子欲讷于言
+            'Z': '学',  // 学而时习之
+            'a': '之',
+            'b': '思',  // 学而不思则罔
+            'c': '省',  // 吾日三省吾身
+            'd': '问',  // 不耻下问
+            'e': '知',  // 知之为知之
+            'f': '行',  // 听其言而观其行
+            'g': '贤',  // 见贤思齐
+            'h': '圣',
+            'i': '善',
+            'j': '美',
+            'k': '正',  // 政者正也
+            'l': '直',  // 以直报怨
+            'm': '宽',  // 宽则得众
+            'n': '友',  // 友于兄弟
+            'o': '文',  // 文质彬彬
+            'p': '质',
+            'q': '君',  // 君子
+            'r': '士',  // 士志于道
+            's': '师',  // 三人行必有我师
+            't': '教',  // 有教无类
+            'u': '政',
+            'v': '治',
+            'w': '天',  // 知天命
+            'x': '命',
+            'y': '性',  // 性相近也
+            'z': '习',  // 习相远也
+            '0': '一',  // 吾道一以贯之
+            '1': '贯',
+            '2': '九',  // 君子有九思
+            '3': '五',  // 五常/五德
+            '4': '十',  // 十室之邑
+            '5': '百',  // 百姓
+            '6': '千',
+            '7': '万',
+            '8': '始',  // 始可与言诗已矣
+            '9': '终',  // 慎终追远
+            '+': '乐',  // 知之者不如好之者，好之者不如乐之者
+            '/': '诗',  // 诗三百
+            '=': '书'   // 书云孝乎
+        };
+
+        // 反向映射表 - 从论语句子映射回base64字符
+        const reverseLunyuMap = {};
+        for (const [key, value] of Object.entries(lunyuMap)) {
+            reverseLunyuMap[value] = key;
+        }
+
+        // 加密函数
+        function encrypt() {
+            const input = document.getElementById('inputText').value;
+            
+            if (!input) {
+                alert('请输入要加密的文字');
+                return;
+            }
+            
+            try {
+                // 1. 将文本转换为UTF-8编码的Uint8Array
+                const encoder = new TextEncoder();
+                const textBytes = encoder.encode(input);
+                
+                // 2. 使用pako进行zlib压缩（使用raw deflate模式）
+                const compressed = pako.deflate(textBytes, { raw: true });
+                
+                // 3. 转换为Base64
+                const base64 = arrayBufferToBase64(compressed);
+                
+                // 4. 将Base64字符映射为论语文字
+                let lunyuText = '';
+                for (let i = 0; i < base64.length; i++) {
+                    const char = base64.charAt(i);
+                    if (lunyuMap[char]) {
+                        lunyuText += lunyuMap[char];
+                    } else {
+                        lunyuText += char;
+                    }
+                }
+                
+                // 5. 添加"子曰："前缀
+                document.getElementById('outputText').value = LUNYU_PREFIX + lunyuText;
+            } catch (error) {
+                console.error('加密出错:', error);
+                alert('加密失败: ' + error.message);
+            }
+        }
+
+        // 解密函数
+        function decrypt() {
+            let input = document.getElementById('inputText').value;
+            
+            if (!input) {
+                alert('请输入要解密的论语文字');
+                return;
+            }
+            
+            try {
+                // 检查并移除"子曰："前缀
+                if (input.startsWith(LUNYU_PREFIX)) {
+                    input = input.substring(LUNYU_PREFIX.length);
+                }
+                
+                // 1. 将论语文字映射回Base64
+                let base64 = '';
+                
+                for (let i = 0; i < input.length; i++) {
+                    const char = input.charAt(i);
+                    if (reverseLunyuMap[char]) {
+                        base64 += reverseLunyuMap[char];
+                    } else {
+                        base64 += char;
+                    }
+                }
+                
+                // 2. 从Base64解码
+                const compressed = base64ToArrayBuffer(base64);
+                
+                // 3. 使用pako解压缩（使用raw deflate模式）
+                const decompressed = pako.inflate(compressed, { raw: true });
+                
+                // 4. 将Uint8Array转换回文本
+                const decoder = new TextDecoder('utf-8');
+                const text = decoder.decode(decompressed);
+                
+                document.getElementById('outputText').value = text;
+            } catch (error) {
+                console.error('解密出错:', error);
+                alert('解密失败，这可能不是有效的论语加密文本: ' + error.message);
+            }
+        }
+
+        // ArrayBuffer转Base64
+        function arrayBufferToBase64(buffer) {
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return window.btoa(binary);
+        }
+
+        // Base64转ArrayBuffer
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes;
+        }
+
+        // 复制结果到剪贴板
+        function copyResult() {
+            const outputText = document.getElementById('outputText');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            if (!outputText.value) {
+                copyBtn.textContent = '无内容';
+                copyBtn.classList.add('copy-error');
+                setTimeout(() => {
+                    copyBtn.textContent = '复制结果';
+                    copyBtn.classList.remove('copy-error');
+                }, 2000);
+                return;
+            }
+            
+            try {
+                outputText.select();
+                document.execCommand('copy');
+                
+                // 成功状态
+                copyBtn.textContent = '复制成功';
+                copyBtn.classList.add('copy-success');
+                setTimeout(() => {
+                    copyBtn.textContent = '复制结果';
+                    copyBtn.classList.remove('copy-success');
+                }, 2000);
+            } catch (err) {
+                // 失败状态
+                copyBtn.textContent = '复制失败';
+                copyBtn.classList.add('copy-error');
+                alert('复制失败: ' + err.message);
+                setTimeout(() => {
+                    copyBtn.textContent = '复制结果';
+                    copyBtn.classList.remove('copy-error');
+                }, 2000);
+            }
+        }
+
+        // 绑定按钮事件
+        document.getElementById('encryptBtn').addEventListener('click', encrypt);
+        document.getElementById('decryptBtn').addEventListener('click', decrypt);
+        document.getElementById('copyBtn').addEventListener('click', copyResult);
+    </script>
+</body>
+</html> 
